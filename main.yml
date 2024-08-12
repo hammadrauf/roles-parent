@@ -1,0 +1,99 @@
+---
+###########################
+# Ansible Playbook: Roles - main.yml
+#   Creates WebNode by orchestrating diffrent roles and tasks.
+# Source Repository: https://github.com/????
+###########################
+- name: Playbook Test Roles - main.yml
+  hosts: all
+  vars_files:
+    - ./vars/vars.yml
+    - ./vars/secrets.yml
+  #become: true
+
+  # For Playbook - OS Specifc Vars.
+  pre_tasks:
+    - debug: var=ansible_env.LOGNAME
+    - debug: var=ansible_os_family
+    - name: Load OS specific Vars file for playbook, if any.
+      ansible.builtin.include_vars: "{{ item }}"
+      with_first_found:
+        - "./vars/os_specific_{{ ansible_os_family }}.yml"
+        - "./vars/os_specific_default.yml"
+    - name: Load OS specific Secret Vars file for playbook, if any.
+      ansible.builtin.include_vars: "{{ item }}"
+      with_first_found:
+        - "./vars/vsecrets_{{ ansible_os_family }}.yml"
+        - "./vars/vsecrets_default.yml"
+    - name: Ensure Ansible tmp directory exists with correct permissions for "sudo su unprevilged"
+      become: true
+      ansible.builtin.file:
+        path: "/root/.ansible/tmp"
+        state: directory
+        mode: '1777'
+    # - name: Update and upgrade apt packages
+    #   become: true
+    #   apt:
+    #     upgrade: yes
+    #     update_cache: yes
+    #     cache_valid_time: 86400 #One day
+    #   when:
+    #     - ansible_os_family == 'Debian'  
+    # - name: Perform a Block of RHEL Family pre-tasks
+    #   become: true
+    #   block:
+    #     - name: Update and upgrade yum packages
+    #       yum:
+    #         update_cache: yes
+    #         name: '*'
+    #         state: latest
+    #     - name: Perform repo-epel role tasks
+    #       include_role:
+    #         name: geerlingguy.repo-epel
+    #     - name: Perform repo-remi role tasks
+    #       include_role:
+    #         name: geerlingguy.repo-remi
+    #     - name: Update yum/dnf configuration 
+    #       shell: |
+    #         dnf config-manager --set-enabled epel
+    #         dnf config-manager --set-enabled remi
+    #   when:
+    #     - ansible_os_family == 'RedHat'  
+
+  # roles:
+    # - role: apache_vhosts
+    # - role: apache2
+    # - role: sudousers
+    # - role: rclone
+    # - role: ddclient
+    # - role: noip-duc
+
+  tasks:
+    - name: Block to include roles as user root
+      block:
+        - name: Perform Sudouser role tasks
+          include_role:
+            name: sudousers
+
+        - name: Ensure Ansible tmp directory exists with correct permissions for "sudo su unprevilged"
+          ansible.builtin.file:
+            path: "/home/{{ su_vault_vmuser1 }}/.ansible/tmp"
+            state: directory
+            mode: '1777'
+            owner: "{{ su_vault_vmuser1 }}"
+            group: "{{ su_vault_vmuser1 }}"
+
+        # - name: Perform Apache/Httpd role tasks
+        #   include_role:
+        #     name: apache2
+
+        # - name: Perform ddclient role tasks conditionally
+        #   include_role:
+        #     name: ddclient
+        #   when:
+        #     - include_ddclient 
+
+        - name: Perform noip-duc role tasks
+          include_role:
+            name: noipduc            
+      become: true
