@@ -1,0 +1,25 @@
+[submodule "noipduc"]
+	path = noipduc
+	url = git@github.com:hammadrauf/noipduc.git
+	branch = main
+	update = rebase
+[submodule "ddclient"]
+	path = ddclient
+	url = git@github.com:hammadrauf/ddclient.git
+	branch = master
+	update = rebase
+[submodule "apache2"]
+	path = apache2
+	url = git@github.com:hammadrauf/apache2.git
+	branch = main
+	update = rebase
+[submodule "apache_vhosts"]
+	path = apache_vhosts
+	url = git@github.com:hammadrauf/apache_vhosts.git
+	branch = master
+	update = rebase
+[submodule "sudousers"]
+	path = sudousers
+	url = git@github.com:hammadrauf/sudousers.git
+	branch = main
+	update = rebase
