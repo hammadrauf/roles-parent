@@ -83,6 +83,9 @@
             owner: "{{ su_vault_vmuser1 }}"
             group: "{{ su_vault_vmuser1 }}"
 
+        - name: Include Configure-Network Static IP tasks
+          include_tasks: network_config.yml
+
         # - name: Perform Apache/Httpd role tasks
         #   include_role:
         #     name: apache2
@@ -93,7 +96,7 @@
         #   when:
         #     - include_ddclient 
 
-        - name: Perform noip-duc role tasks
-          include_role:
-            name: noipduc            
+        # - name: Perform noip-duc role tasks
+        #   include_role:
+        #     name: noipduc            
       become: true
