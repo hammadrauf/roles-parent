@@ -23,3 +23,6 @@
 	url = git@github.com:hammadrauf/sudousers.git
 	branch = main
 	update = rebase
+[submodule "networkconfig"]
+	path = networkconfig
+	url = git@github.com:hammadrauf/networkconfig.git
