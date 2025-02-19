@@ -6,11 +6,11 @@
 ###########################
 - name: Playbook Test Roles - B_post_ip_change.yml
   hosts: debiannewip
-  remote_user: "adminuser"
+  #hosts: debian
+  #remote_user: "adminuser"
   vars_files:
     - ./vars/vars.yml
     - ./vars/secrets.yml
-  #become: true
 
   # For Playbook - OS Specifc Vars.
   pre_tasks:
@@ -32,14 +32,14 @@
         path: "/root/.ansible/tmp"
         state: directory
         mode: '1777'
-    - name: Update and upgrade apt packages
-      become: true
-      apt:
-        upgrade: yes
-        update_cache: yes
-        cache_valid_time: 86400 #One day
-      when:
-        - ansible_os_family == 'Debian'  
+    # - name: Update and upgrade apt packages
+    #   become: true
+    #   apt:
+    #     upgrade: yes
+    #     update_cache: yes
+    #     cache_valid_time: 86400 #One day
+    #   when:
+    #     - ansible_os_family == 'Debian'  
     - name: Perform a Block of RHEL Family pre-tasks
       become: true
       block:

@@ -1,0 +1,13 @@
+Host debian
+  HostName 192.168.144.1
+  User vagrant
+  Port 2201
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /mnt/c/Users/hamma/Source/devops/roles-parent/.vagrant/machines/debian/virtualbox/private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
+  PubkeyAcceptedKeyTypes +ssh-rsa
+  HostKeyAlgorithms +ssh-rsa
+
