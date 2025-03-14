@@ -148,6 +148,7 @@ wordpress_db_restore_targz_name: "{{ su_vault_db_name }}_dump.sql.tar.gz"
 gcloud_install_dir: "{{ jenkins_home }}"
 gcloud_additional_components:
   - "google-cloud-cli"
+  - "google-cloud-cli-app-engine-python"
 gcloud_state: present
 gcloud_fish_config: "{{ jenkins_home }}/.config/fish/config.fish"
 gcloud_bash_config: "{{ jenkins_home }}/.bashrc"

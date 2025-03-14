@@ -9,6 +9,12 @@ Vagrant.configure("2") do |config|
       debian.vm.network "public_network", bridge: "Realtek Gaming 2.5GbE Family Controller"
     end
   
+    config.vm.define "rhel" do |rhel|
+      rhel.vm.box = "generic/rhel9"
+      rhel.vm.network "private_network", ip: "192.168.56.8"
+      rhel.vm.network "public_network", bridge: "Realtek Gaming 2.5GbE Family Controller"
+    end
+
     config.vm.provision "file", source: "/home/#{ENV['USER']}/.ssh/id_rsa.pub", destination: "~/.ssh/me.pub"
     ##config.vm.provision "shell", path: "vagrant_script.sh"
     config.vm.provision :ansible do |ansible|
