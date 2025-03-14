@@ -26,3 +26,6 @@
 [submodule "networkconfig"]
 	path = networkconfig
 	url = git@github.com:hammadrauf/networkconfig.git
+[submodule "gcloud"]
+	path = gcloud
+	url = git@github.com:hammadrauf/ansible-role-gcloud.git

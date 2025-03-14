@@ -5,8 +5,55 @@
 # Source Repository: https://github.com/????
 ###########################
 
-- name: Get 1st playbook and play it.
-  ansible.builtin.import_playbook: A_pre_ip_change.yml
+# - name: Get 1st playbook and play it.
+#   ansible.builtin.import_playbook: A_pre_ip_change.yml
 
-- name: Get 2nd playbook and play it.
-  ansible.builtin.import_playbook: B_post_ip_change.yml
+# - name: Get 2nd playbook and play it.
+#   ansible.builtin.import_playbook: B_post_ip_change.yml
+
+- name: Play - Test Roles - gcloud
+  hosts: all
+  vars_files:
+    - ./vars/vars.yml
+    - ./vars/secrets.yml
+  become: true
+
+  pre_tasks:
+    - debug: var=ansible_os_family
+    - name: Load OS specific Vars file
+      include_vars: "{{ item }}"
+      with_first_found:
+        - "./vars/os_specific_{{ ansible_os_family }}.yml"
+        - "./vars/os_specific_default.yml"
+
+    - name: Gather the installed package facts
+      ansible.builtin.package_facts:
+        manager: auto      
+      when: ansible_os_family == "RedHat"
+
+    - name: Stop and disable Firewalld service
+      service:
+        name: firewalld
+        state: stopped
+        enabled: false
+      when: ansible_os_family == "RedHat" and "'firewalld' in ansible_facts.packages"
+
+  roles:
+    - role: sudousers
+
+  tasks:
+
+    # - name: Create ~/.bashrc for Jenkins user - needed by gcloud role.
+    #   file:
+    #     state: touch
+    #     path: "{{ jenkins_home }}/.bashrc"
+    #     owner: jenkins
+    #     group: jenkins
+    #     mode: '0644'
+
+    - name: Include role as Jenkins user 
+      become: true
+      block:
+        - name: Install role gcloud
+          include_role:
+            name: gcloud

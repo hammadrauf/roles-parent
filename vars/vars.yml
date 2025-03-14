@@ -142,3 +142,13 @@ wordpress_config_db_port: "{{ su_vault_mariadb_port }}"
 
 wordpress_db_restore_flag: false
 wordpress_db_restore_targz_name: "{{ su_vault_db_name }}_dump.sql.tar.gz"
+
+# Vars for role hammadrauf.gcloud, or labasubagia.gcloud
+# google recommends to install gcloud sdk in user directory, not as root
+gcloud_install_dir: "{{ jenkins_home }}"
+gcloud_additional_components:
+  - "google-cloud-cli"
+gcloud_state: present
+gcloud_fish_config: "{{ jenkins_home }}/.config/fish/config.fish"
+gcloud_bash_config: "{{ jenkins_home }}/.bashrc"
+gcloud_zsh_config: "{{ jenkins_home }}/.zshrc"

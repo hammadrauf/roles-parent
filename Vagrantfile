@@ -10,5 +10,12 @@ Vagrant.configure("2") do |config|
     end
   
     config.vm.provision "file", source: "/home/#{ENV['USER']}/.ssh/id_rsa.pub", destination: "~/.ssh/me.pub"
+    ##config.vm.provision "shell", path: "vagrant_script.sh"
+    config.vm.provision :ansible do |ansible|
+      ansible.playbook = "main.yml"
+      ansible.raw_arguments = [
+        "--vault-password-file=./vars/.vault_pass"
+      ]
+    end      
   end
   
