@@ -3,6 +3,7 @@
 */output*/*
 */.vagrant/*
 */.vault_pass
+*/vault_pass
 */secrets.yml
 !*/vsecrets_*.yml
 !*/vsecrets_shadow*.yml

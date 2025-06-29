@@ -5,7 +5,20 @@ My edited Ansible roles parent repository, mainly useful for testing individual 
 ## Author
 - Hammad Rauf
 
-## Adding Sub-Modules in Git
+## Cloning a Repository with Git Sub-Modules
+
+1. Clone with the Sub-Modules
+    ```bash
+    git clone --recurse-submodules <repository_url>
+    ```
+
+1. OR, if you have already cloned without the sub-modules, then use the following to get latest updates from sub-modules:
+    ```bash
+    git pull --recurse-submodules
+    ```
+
+
+## Adding Sub-Modules in a Git Repository
 
 1. Navigate to Your Parent Repo
 
