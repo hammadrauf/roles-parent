@@ -11,7 +11,7 @@
 # - name: Get 2nd playbook and play it.
 #   ansible.builtin.import_playbook: B_post_ip_change.yml
 
-- name: Play - Test Roles - gcloud
+- name: Play - Test Roles - mariadb
   hosts: all
   vars_files:
     - ./vars/vars.yml
@@ -40,6 +40,7 @@
 
   roles:
     - role: sudousers
+    #- role: mariadb
 
   tasks:
 
@@ -51,9 +52,14 @@
     #     group: jenkins
     #     mode: '0644'
 
-    - name: Include role as Jenkins user 
-      become: true
+    - name: Include roles  
+      #become: true
       block:
-        - name: Install role gcloud
+        - name: Install role mariadb
           include_role:
-            name: gcloud
+            name: mariadb
+          vars:
+            MYSQL_DB_NAME: "{{ su_vault_db_name }}"
+            ROOT_PWD: "{{ su_vault_mariadb_pwd }}"
+            POWER_USER: "{{ su_vault_mariadb_user }}"
+            PU_PWD: "{{ su_vault_mariadb_pwd }}"
